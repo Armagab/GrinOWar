@@ -1,0 +1,6 @@
+aiogram==2.25
+aiosqlite==0.21.0
+openai==1.76.0
+python-dotenv==1.1.0
+APScheduler==3.11.0
+pytz==2025.2
