@@ -1,5 +1,6 @@
 import aiosqlite
 import os
+from datetime import date
 
 DB_PATH = os.path.join(os.path.dirname(__file__), 'data.db')
 
@@ -47,3 +48,34 @@ async def update_prompt(prompt_id: int, prompt_text: str):
             WHERE id = ?
         ''', (prompt_text, prompt_id))
         await conn.commit()
+
+async def set_prompt_for_today(prompt_text: str):
+    today = date.today().isoformat()
+    async with aiosqlite.connect(DB_PATH) as db:
+        await db.execute('''
+            CREATE TABLE IF NOT EXISTS current_prompt (
+                date TEXT PRIMARY KEY,
+                prompt_text TEXT NOT NULL
+            )
+        ''')
+        await db.execute('''
+            INSERT OR REPLACE INTO current_prompt (date, prompt_text)
+            VALUES (?, ?)
+        ''', (today, prompt_text))
+        await db.commit()
+
+
+DEFAULT_PROMPT = "Когда кот впервые пошел работать в офис,"  # дефолтный промпт fallback
+async def get_prompt_for_today() -> str:
+    today = date.today().isoformat()
+    async with aiosqlite.connect(DB_PATH) as db:
+        await db.execute('''
+            CREATE TABLE IF NOT EXISTS current_prompt (
+                date TEXT PRIMARY KEY,
+                prompt_text TEXT NOT NULL
+            )
+        ''')
+        cursor = await db.execute('SELECT prompt_text FROM current_prompt WHERE date = ?', (today,))
+        row = await cursor.fetchone()
+        await cursor.close()
+    return row[0] if row else DEFAULT_PROMPT

@@ -7,12 +7,9 @@ from openai.types.chat import ChatCompletionSystemMessageParam, ChatCompletionUs
 from aiogram import Bot
 
 from database import prompt_queries, joke_queries
-from database.prompt_queries import get_random_prompt
+from database.prompt_queries import get_random_prompt, set_prompt_for_today, get_prompt_for_today, DEFAULT_PROMPT
 
 
-DEFAULT_PROMPT = "Когда кот впервые пошел работать в офис,"  # дефолтный промпт fallback
-
-_current_prompt = DEFAULT_PROMPT
 
 
 async def generate_prompt_with_gpt() -> str:
@@ -58,21 +55,14 @@ async def clear_old_jokes():
     await joke_queries.clear_votes_and_views()
 
 
-async def update_current_prompt(new_prompt: str):
-    global _current_prompt
-    _current_prompt = new_prompt
+def get_current_prompt_sync() -> str:
+    return asyncio.run(get_prompt_for_today())
 
 
 async def select_prompt_for_today(bot: Bot):
     prompt_text = await try_select_prompt_from_db()
-
     if prompt_text is None:
         prompt_text = await generate_prompt_with_gpt()
 
-    await update_current_prompt(prompt_text)
-
+    await set_prompt_for_today(prompt_text)
     await clear_old_jokes()
-
-
-def get_current_prompt() -> str:
-    return _current_prompt

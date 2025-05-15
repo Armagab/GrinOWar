@@ -1,9 +1,9 @@
 from math import log10
 from database.joke_queries import get_jokes_for_scoring
-from services.prompt_manager import get_current_prompt
+from database.prompt_queries import get_prompt_for_today
 
 async def calculate_daily_top_jokes():
-    prompt = get_current_prompt()
+    prompt = await get_prompt_for_today()
     jokes = await get_jokes_for_scoring(prompt)
 
     for joke in jokes:

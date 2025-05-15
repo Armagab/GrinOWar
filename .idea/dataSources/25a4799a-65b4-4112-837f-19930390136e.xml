@@ -499,7 +499,7 @@
     </routine>
     <schema id="191" parent="1" name="main">
       <Current>1</Current>
-      <LastIntrospectionLocalTimestamp>2025-04-29.14:01:22</LastIntrospectionLocalTimestamp>
+      <LastIntrospectionLocalTimestamp>2025-05-08.12:05:35</LastIntrospectionLocalTimestamp>
     </schema>
     <argument id="192" parent="16">
       <ArgumentDirection>R</ArgumentDirection>
@@ -1590,216 +1590,280 @@
     <argument id="554" parent="190">
       <Position>1</Position>
     </argument>
-    <table id="555" parent="191" name="jokes"/>
-    <table id="556" parent="191" name="prompts"/>
-    <table id="557" parent="191" name="sqlite_master">
+    <table id="555" parent="191" name="current_prompt"/>
+    <table id="556" parent="191" name="jokes"/>
+    <table id="557" parent="191" name="prompts"/>
+    <table id="558" parent="191" name="sqlite_master">
       <System>1</System>
     </table>
-    <table id="558" parent="191" name="sqlite_sequence">
+    <table id="559" parent="191" name="sqlite_sequence">
       <System>1</System>
     </table>
-    <table id="559" parent="191" name="users"/>
-    <table id="560" parent="191" name="views"/>
-    <table id="561" parent="191" name="votes"/>
-    <column id="562" parent="555" name="id">
+    <table id="560" parent="191" name="todays_winners"/>
+    <table id="561" parent="191" name="users"/>
+    <table id="562" parent="191" name="views"/>
+    <table id="563" parent="191" name="votes"/>
+    <column id="564" parent="555" name="date">
+      <Position>1</Position>
+      <StoredType>TEXT|0s</StoredType>
+    </column>
+    <column id="565" parent="555" name="prompt_text">
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+      <StoredType>TEXT|0s</StoredType>
+    </column>
+    <index id="566" parent="555" name="sqlite_autoindex_current_prompt_1">
+      <ColNames>date</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <Unique>1</Unique>
+    </index>
+    <key id="567" parent="555">
+      <ColNames>date</ColNames>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>sqlite_autoindex_current_prompt_1</UnderlyingIndexName>
+    </key>
+    <column id="568" parent="556" name="id">
       <AutoIncrement>1</AutoIncrement>
       <Position>1</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <column id="563" parent="555" name="user_id">
+    <column id="569" parent="556" name="user_id">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <column id="564" parent="555" name="username">
+    <column id="570" parent="556" name="username">
       <Position>3</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="565" parent="555" name="prompt">
+    <column id="571" parent="556" name="prompt">
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="566" parent="555" name="joke_text">
+    <column id="572" parent="556" name="joke_text">
       <NotNull>1</NotNull>
       <Position>5</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="567" parent="555" name="created_at">
+    <column id="573" parent="556" name="created_at">
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
       <Position>6</Position>
       <StoredType>TIMESTAMP|0s</StoredType>
     </column>
-    <column id="568" parent="555" name="is_active">
+    <column id="574" parent="556" name="is_active">
       <DefaultExpression>1</DefaultExpression>
       <Position>7</Position>
       <StoredType>BOOLEAN|0s</StoredType>
     </column>
-    <column id="569" parent="555" name="first_name">
+    <column id="575" parent="556" name="first_name">
       <Position>8</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="570" parent="555" name="views">
+    <column id="576" parent="556" name="views">
       <DefaultExpression>0</DefaultExpression>
       <Position>9</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <column id="571" parent="555" name="likes">
+    <column id="577" parent="556" name="likes">
       <DefaultExpression>0</DefaultExpression>
       <Position>10</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <key id="572" parent="555">
+    <key id="578" parent="556">
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="573" parent="556" name="id">
+    <column id="579" parent="557" name="id">
       <AutoIncrement>1</AutoIncrement>
       <Position>1</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <column id="574" parent="556" name="user_id">
+    <column id="580" parent="557" name="user_id">
       <Position>2</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <column id="575" parent="556" name="username">
+    <column id="581" parent="557" name="username">
       <Position>3</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="576" parent="556" name="first_name">
+    <column id="582" parent="557" name="first_name">
       <Position>4</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="577" parent="556" name="prompt_text">
+    <column id="583" parent="557" name="prompt_text">
       <NotNull>1</NotNull>
       <Position>5</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="578" parent="556" name="created_at">
+    <column id="584" parent="557" name="created_at">
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
       <Position>6</Position>
       <StoredType>TIMESTAMP|0s</StoredType>
     </column>
-    <key id="579" parent="556">
+    <key id="585" parent="557">
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="580" parent="557" name="type">
+    <column id="586" parent="558" name="type">
       <Position>1</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="581" parent="557" name="name">
+    <column id="587" parent="558" name="name">
       <Position>2</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="582" parent="557" name="tbl_name">
+    <column id="588" parent="558" name="tbl_name">
       <Position>3</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="583" parent="557" name="rootpage">
+    <column id="589" parent="558" name="rootpage">
       <Position>4</Position>
       <StoredType>INT|0s</StoredType>
     </column>
-    <column id="584" parent="557" name="sql">
+    <column id="590" parent="558" name="sql">
       <Position>5</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="585" parent="558" name="name">
+    <column id="591" parent="559" name="name">
       <Position>1</Position>
     </column>
-    <column id="586" parent="558" name="seq">
+    <column id="592" parent="559" name="seq">
       <Position>2</Position>
     </column>
-    <column id="587" parent="559" name="user_id">
+    <column id="593" parent="560" name="id">
+      <AutoIncrement>1</AutoIncrement>
       <Position>1</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <column id="588" parent="559" name="username">
+    <column id="594" parent="560" name="date">
+      <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="589" parent="559" name="first_name">
+    <column id="595" parent="560" name="joke_id">
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+      <StoredType>INTEGER|0s</StoredType>
+    </column>
+    <column id="596" parent="560" name="prompt">
+      <Position>4</Position>
+      <StoredType>TEXT|0s</StoredType>
+    </column>
+    <column id="597" parent="560" name="joke_text">
+      <Position>5</Position>
+      <StoredType>TEXT|0s</StoredType>
+    </column>
+    <column id="598" parent="560" name="first_name">
+      <Position>6</Position>
+      <StoredType>TEXT|0s</StoredType>
+    </column>
+    <column id="599" parent="560" name="likes">
+      <Position>7</Position>
+      <StoredType>INTEGER|0s</StoredType>
+    </column>
+    <column id="600" parent="560" name="views">
+      <Position>8</Position>
+      <StoredType>INTEGER|0s</StoredType>
+    </column>
+    <column id="601" parent="560" name="score">
+      <Position>9</Position>
+      <StoredType>REAL|0s</StoredType>
+    </column>
+    <key id="602" parent="560">
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="603" parent="561" name="user_id">
+      <Position>1</Position>
+      <StoredType>INTEGER|0s</StoredType>
+    </column>
+    <column id="604" parent="561" name="username">
+      <Position>2</Position>
+      <StoredType>TEXT|0s</StoredType>
+    </column>
+    <column id="605" parent="561" name="first_name">
       <Position>3</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="590" parent="559" name="is_active">
+    <column id="606" parent="561" name="is_active">
       <DefaultExpression>1</DefaultExpression>
       <Position>4</Position>
       <StoredType>BOOLEAN|0s</StoredType>
     </column>
-    <column id="591" parent="559" name="joined_at">
+    <column id="607" parent="561" name="joined_at">
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
       <Position>5</Position>
       <StoredType>TIMESTAMP|0s</StoredType>
     </column>
-    <column id="592" parent="559" name="paused_due_to_inactivity">
+    <column id="608" parent="561" name="paused_due_to_inactivity">
       <DefaultExpression>0</DefaultExpression>
       <Position>6</Position>
       <StoredType>BOOLEAN|0s</StoredType>
     </column>
-    <column id="593" parent="559" name="last_active">
+    <column id="609" parent="561" name="last_active">
       <Position>7</Position>
       <StoredType>TIMESTAMP|0s</StoredType>
     </column>
-    <key id="594" parent="559">
+    <key id="610" parent="561">
       <ColNames>user_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="595" parent="560" name="id">
+    <column id="611" parent="562" name="id">
       <AutoIncrement>1</AutoIncrement>
       <Position>1</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <column id="596" parent="560" name="joke_id">
+    <column id="612" parent="562" name="joke_id">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <column id="597" parent="560" name="viewer_user_id">
+    <column id="613" parent="562" name="viewer_user_id">
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <column id="598" parent="560" name="viewed_at">
+    <column id="614" parent="562" name="viewed_at">
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
       <Position>4</Position>
       <StoredType>TIMESTAMP|0s</StoredType>
     </column>
-    <foreign-key id="599" parent="560">
+    <foreign-key id="615" parent="562">
       <ColNames>joke_id</ColNames>
       <RefColNames>id</RefColNames>
       <RefTableName>jokes</RefTableName>
     </foreign-key>
-    <key id="600" parent="560">
+    <key id="616" parent="562">
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="601" parent="561" name="id">
+    <column id="617" parent="563" name="id">
       <AutoIncrement>1</AutoIncrement>
       <Position>1</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <column id="602" parent="561" name="joke_id">
+    <column id="618" parent="563" name="joke_id">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <column id="603" parent="561" name="voter_user_id">
+    <column id="619" parent="563" name="voter_user_id">
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <column id="604" parent="561" name="voted_at">
+    <column id="620" parent="563" name="voted_at">
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
       <Position>4</Position>
       <StoredType>TIMESTAMP|0s</StoredType>
     </column>
-    <foreign-key id="605" parent="561">
+    <foreign-key id="621" parent="563">
       <ColNames>joke_id</ColNames>
       <RefColNames>id</RefColNames>
       <RefTableName>jokes</RefTableName>
     </foreign-key>
-    <key id="606" parent="561">
+    <key id="622" parent="563">
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>

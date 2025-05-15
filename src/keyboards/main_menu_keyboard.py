@@ -9,7 +9,7 @@ class MainMenuButton(str, Enum):
     VOTE                   = "🎭 Голосовать за шутки"
     SUGGEST                = "💡 Предложить заготовку"
     STATS                  = "📈 Моя статистика"
-    RULES                  = "📜 Правила игры"
+    SHOW_YESTERDAY_WINNERS = "🏆 Топ 5 прошедшего дня"
     UNSUBSCRIBE            = "🔕 Отказаться от рассылки"
     SUBSCRIBE              = "🔔 Включить рассылку"
 
@@ -28,7 +28,7 @@ async def main_menu_keyboard(user_id: int) -> ReplyKeyboardMarkup:
         ],
     ]
 
-    bottom = [KeyboardButton(MainMenuButton.RULES.value)]
+    bottom = [KeyboardButton(MainMenuButton.SHOW_YESTERDAY_WINNERS.value)]
     if subscribed:
         bottom.append(KeyboardButton(MainMenuButton.UNSUBSCRIBE.value))
     else:

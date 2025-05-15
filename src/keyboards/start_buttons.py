@@ -1,4 +1,5 @@
 from aiogram import types
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 
 
@@ -16,3 +17,9 @@ def rules_keyboard():
         types.InlineKeyboardButton("✅ Я готов начать", callback_data="ready_to_start")
     )
     return keyboard
+
+
+def retry_joke_keyboard():
+    return InlineKeyboardMarkup().add(
+        InlineKeyboardButton("🔁 Попробовать ещё раз", callback_data="retry_joke")
+    )

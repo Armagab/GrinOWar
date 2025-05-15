@@ -206,6 +206,29 @@ async def get_jokes_for_scoring(prompt: str, limit: int = 50):
     ]
 
 
+async def get_winners() -> list[dict]:
+    async with aiosqlite.connect(DB_PATH) as db:
+        cursor = await db.execute('''
+            SELECT joke_id, joke_text, first_name, score, prompt
+            FROM todays_winners
+            ORDER BY score DESC
+            LIMIT 5
+        ''')
+        rows = await cursor.fetchall()
+        await cursor.close()
+
+    return [
+        {
+            "id": row[0],
+            "text": row[1],
+            "author": row[2],
+            "score": row[3],
+            "prompt": row[4],
+        }
+        for row in rows
+    ]
+
+
 async def clear_votes_and_views():
     async with aiosqlite.connect(DB_PATH) as conn:
         await conn.execute('DELETE FROM votes')

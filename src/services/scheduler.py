@@ -20,3 +20,6 @@ def init_scheduler(bot):
     )
 
     scheduler.start()
+
+
+

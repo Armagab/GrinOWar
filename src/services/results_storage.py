@@ -1,13 +1,13 @@
 import os
 import aiosqlite
 from datetime import date
-from services.prompt_manager import get_current_prompt
+from database.prompt_queries import get_prompt_for_today
 from database.joke_queries import DB_PATH
 
 
 
 async def store_daily_winners(top5: list[dict]):
-    prompt = get_current_prompt()
+    prompt = await get_prompt_for_today()
     today = date.today().isoformat()
 
     async with aiosqlite.connect(DB_PATH) as db:

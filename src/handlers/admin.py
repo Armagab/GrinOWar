@@ -1,22 +1,26 @@
 from aiogram import types, Dispatcher
 from aiogram.dispatcher import FSMContext
 
-from services.prompt_manager import select_prompt_for_today, get_current_prompt
+from services.prompt_manager import select_prompt_for_today
+from database.prompt_queries import get_prompt_for_today
 from services.daily_routine import run_daily_routine
-from config import ADMIN_ID
+from utils.formatters import format_admin_prompt_chosen
+from utils.reply_lines import reply_admin_routine_start, reply_admin_routine_end, reply_admin_no_rights
+
+ADMIN_ID = 811546015
 
 async def force_prompt_command(message: types.Message, state: FSMContext):
     await state.finish()
 
     if message.from_user.id != ADMIN_ID:
-        await message.answer("⛔ У тебя нет прав на эту команду.")
+        await message.answer(reply_admin_no_rights)
         return
 
     await select_prompt_for_today(message.bot)
-    selected = get_current_prompt()
+    selected = await get_prompt_for_today()
 
     await message.answer(
-        f"✅ Заготовка на сегодня была выбрана:\n\n`{selected}`",
+        format_admin_prompt_chosen(selected),
         parse_mode="Markdown"
     )
 
@@ -24,12 +28,12 @@ async def force_prompt_command(message: types.Message, state: FSMContext):
 async def force_routine_command(message: types.Message, state: FSMContext):
     await state.finish()
     if message.from_user.id != ADMIN_ID:
-        await message.answer("⛔ У тебя нет прав на эту команду.")
+        await message.answer(reply_admin_no_rights)
         return
 
-    await message.answer("🕐 Запускаю ежедневную рутину...", parse_mode=None)
+    await message.answer(reply_admin_routine_start, parse_mode=None)
     await run_daily_routine(message.bot)
-    await message.answer("✅ Ежедневная рутина успешно выполнена.", parse_mode=None)
+    await message.answer(reply_admin_routine_end, parse_mode=None)
 
 
 def register_admin_handlers(dp: Dispatcher):

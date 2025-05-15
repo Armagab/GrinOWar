@@ -7,3 +7,6 @@ def register_all_handlers(dp):
     prompt.register_prompt_handlers(dp)
     suggest.register_suggest_handlers(dp)
     admin.register_admin_handlers(dp)
+
+
+    

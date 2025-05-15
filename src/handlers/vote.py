@@ -1,13 +1,13 @@
 from aiogram import types, Dispatcher
 from aiogram.dispatcher import FSMContext
 
-from services.prompt_manager import get_current_prompt
+from database.prompt_queries import get_prompt_for_today
 from database.joke_queries import get_jokes_for_voting, add_vote, get_user_votes, remove_vote, register_views
 from states.bot_states import VoteStates
 
 from keyboards.voting_buttons import generate_voting_keyboard
 from utils.formatters import format_jokes_page
-
+from utils.reply_lines import reply_voting_all_jokes_viewed, reply_voting_no_jokes, reply_voting_finish
 from config import JOKES_PER_PAGE
 
 
@@ -15,7 +15,7 @@ from config import JOKES_PER_PAGE
 async def vote_command(message: types.Message, state: FSMContext):
     await state.finish()
     user_id = message.from_user.id
-    prompt_text = get_current_prompt()
+    prompt_text = await get_prompt_for_today()
 
     jokes = await get_jokes_for_voting(user_id, prompt_text, limit=50)
     voted_jokes = await get_user_votes(user_id)
@@ -31,7 +31,7 @@ async def send_jokes_page(chat_id, bot, state: FSMContext, message_id=None, do_r
     jokes = data.get('jokes', [])
     page = data.get('page', 0)
     voted_jokes = data.get('voted_jokes', set())
-    prompt_text = get_current_prompt()
+    prompt_text = await get_prompt_for_today()
 
     start = page * JOKES_PER_PAGE
     end = start + JOKES_PER_PAGE
@@ -40,7 +40,7 @@ async def send_jokes_page(chat_id, bot, state: FSMContext, message_id=None, do_r
     if not jokes or not jokes_slice:
         await bot.send_message(
             chat_id,
-            "😕 Пока нет доступных шуток для голосования.\n(Или вы уже посмотрели все доступные шутки)"
+            reply_voting_no_jokes
         )
         await state.finish()
         return
@@ -95,11 +95,11 @@ async def pagination_callback(call: types.CallbackQuery, state: FSMContext):
             await state.update_data(page=page)
             await send_jokes_page(call.message.chat.id, call.bot, state, call.message.message_id)
         else:
-            await call.answer("✅ Вы просмотрели все шутки!", show_alert=True)
+            await call.answer(reply_voting_all_jokes_viewed, show_alert=True)
 
     elif call.data == "finish_voting":
         await call.message.edit_reply_markup()
-        await call.message.answer("✅ Спасибо за участие в голосовании!")
+        await call.message.answer(reply_voting_finish)
         await state.finish()
 
 
